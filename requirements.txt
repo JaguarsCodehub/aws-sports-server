@@ -5,3 +5,5 @@ uvicorn
 PyJWT[crypto]==2.3.0
 python-multipart
 python-dotenv
+requests
+
