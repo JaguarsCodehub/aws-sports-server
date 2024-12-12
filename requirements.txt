@@ -6,4 +6,5 @@ PyJWT[crypto]==2.3.0
 python-multipart
 python-dotenv
 requests
-
+mangum>=0.17.0
+aws-lambda-powertools>=2.30.1
