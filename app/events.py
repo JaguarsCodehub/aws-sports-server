@@ -12,10 +12,10 @@ from typing import List
 from fastapi.responses import JSONResponse
 from botocore.exceptions import ClientError
 import json
+from sports_event_utils import validate_event_data
 
 router = APIRouter()
 
-# Initialize AWS clients with explicit region
 dynamodb = boto3.resource('dynamodb', region_name=os.getenv('AWS_REGION'))
 s3 = boto3.client('s3', region_name=os.getenv('AWS_REGION'))
 events_table = dynamodb.Table(os.getenv('DYNAMODB_EVENTS_TABLE'))
@@ -63,6 +63,10 @@ async def create_event(
         "max_participants": max_participants,
         "organizer_id": organizer_id,
     }
+
+    # Validate the event data
+    if not validate_event_data(event_data):
+        raise HTTPException(status_code=400, detail="Invalid event data")
 
     # Ensure all datetime fields are strings before storing
     for key, value in event_data.items():

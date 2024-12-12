@@ -8,6 +8,7 @@ import hmac
 import base64
 import hashlib
 from enum import Enum
+from sports_event_utils import generate_secret_hash
 
 # Load environment variables
 load_dotenv()
@@ -122,7 +123,7 @@ async def create_organizer(
 @router.post("/admin/signin")
 async def admin_signin(user_data: UserAuth):
     try:
-        # Generate SECRET_HASH
+        # Generate SECRET_HASH or use the one I have created from sports_event_utils
         message = user_data.email + os.getenv("COGNITO_USER_POOL_CLIENT_ID")
         key = os.getenv("COGNITO_CLIENT_SECRET").encode('utf-8')
         secret_hash = base64.b64encode(
